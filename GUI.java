@@ -10,6 +10,10 @@ public class GUI implements ActionListener {
     JLabel credentialsLabel;
     JTextField nameField;
     private String userID = "";
+    JLabel welcomeLabel;
+    JLabel instructionLabel;
+    JLabel nameLabel;
+    JButton continueToLogin;
 
     GUI() {
 
@@ -23,15 +27,15 @@ public class GUI implements ActionListener {
 
         welcomePanel.setLayout(new FlowLayout());
 
-        JLabel welcomeLabel = new JLabel("Welcome to Marie's Bank");
+        welcomeLabel = new JLabel("Welcome to Marie's Bank");
         welcomeLabel.setBounds(10,20,100,100);
         welcomePanel.add(welcomeLabel);
 
-        JLabel instructionLabel = new JLabel("Please Enter Your Name to Recieve Your Log In Info");
+        instructionLabel = new JLabel("Please Enter Your Name to Recieve Your Log In Info");
         instructionLabel.setBounds(30, 20, 100, 100);
         welcomePanel.add(instructionLabel);
 
-        JLabel nameLabel = new JLabel("ENTER NAME: ");
+        nameLabel = new JLabel("ENTER NAME: ");
         nameLabel.setBounds(10,20,80,25);
         welcomePanel.add(nameLabel);
 
@@ -44,14 +48,19 @@ public class GUI implements ActionListener {
         submitButton.addActionListener(this);
         welcomePanel.add(submitButton);
 
-        credentialsLabel = new JLabel("HERE:");
+        credentialsLabel = new JLabel("");
         credentialsLabel.setBounds(400,80,400,80);
         welcomePanel.add(credentialsLabel);
 
-
-
+        continueToLogin = new JButton("Continue To Login");
+        continueToLogin.setBounds(100, 50, 100, 100);
+        continueToLogin.addActionListener(this);
+        welcomePanel.add(continueToLogin);
+        continueToLogin.setVisible(false);
 
         frame.setVisible(true);
+
+
 
     }
 
@@ -71,9 +80,26 @@ public class GUI implements ActionListener {
 
             System.out.println(userID);
 
-            credentialsLabel.setText("LOGIN CREDENTIALS:" + userID);
+            int length2 = 4;
+            char[] pin = new char[4];
+            for (int i=0; i < 4; i++){
+                int random = (int) (Math.random() * numberSet.length());
+                pin[i] = numberSet.charAt(random);
+            }
 
-            welcomePanel.setVisible(false);
+            credentialsLabel.setText("LOGIN CREDENTIALS:     " + "USERID: " + userID + " " + "PIN: " + String.valueOf(pin));
+
+            welcomeLabel.setVisible(false);
+            instructionLabel.setVisible(false);
+            nameLabel.setVisible(false);
+            submitButton.setVisible(false);
+            nameField.setVisible(false);
+            continueToLogin.setVisible(true);
+        }
+
+        if (e.getSource()== continueToLogin) {
+            System.out.println("it works!");
+            credentialsLabel.setVisible(false);
         }
     }
 }
