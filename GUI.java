@@ -19,6 +19,7 @@ public class GUI implements ActionListener {
     private static JLabel passwordLabel;
     private static JPasswordField passText;
     private static JButton loginButton;
+    private static char[] pin;
 
     GUI() {
 
@@ -87,6 +88,7 @@ public class GUI implements ActionListener {
         loginButton = new JButton("LOGIN");
         loginButton.setBounds(200,20,100,80);
         welcomePanel.add(loginButton);
+        loginButton.addActionListener(this);
         loginButton.setVisible(false);
 
 
@@ -114,7 +116,7 @@ public class GUI implements ActionListener {
             System.out.println(userID);
 
             int length2 = 4;
-            char[] pin = new char[4];
+            pin = new char[4];
             for (int i=0; i < 4; i++){
                 int random = (int) (Math.random() * numberSet.length());
                 pin[i] = numberSet.charAt(random);
@@ -144,6 +146,15 @@ public class GUI implements ActionListener {
 
         if (e.getSource() == loginButton) {
 
+            String user = userText.getText();
+            String password = passText.getText();
+
+            if(user.equals(userID) && password.equals(String.valueOf(pin))) {
+                System.out.println("CORRECT");
+            }
+            else {
+                System.out.println("INCORRECT LOGIN");
+            }
         }
     }
 }
