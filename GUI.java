@@ -20,6 +20,21 @@ public class GUI implements ActionListener {
     private static JPasswordField passText;
     private static JButton loginButton;
     private static char[] pin;
+    private static JLabel incorrectLogin;
+    private static JLabel chooseAction;
+    public static JButton depositButton;
+    public static JButton wihdrawButton;
+    public static JButton quitButton;
+    public static JButton previousButton;
+    public static JButton mainMenu;
+    public JLabel balance;
+    private static JTextField amount;
+    private static JLabel howMuch;
+    private static JButton enterDeposit;
+    private static int balanceNumber = 0;
+    private static JButton enterWithdraw;
+    public static int previousTransAmount = 0;
+
 
     GUI() {
 
@@ -91,7 +106,84 @@ public class GUI implements ActionListener {
         loginButton.addActionListener(this);
         loginButton.setVisible(false);
 
+        incorrectLogin = new JLabel("");
+        incorrectLogin.setBounds(200, 200, 100, 80);
+        welcomePanel.add(incorrectLogin);
+        incorrectLogin.setVisible(false);
 
+
+        //set balance
+        balance = new JLabel("Balance: $" + balanceNumber);
+        balance.setBounds(50,250,10,80);
+        welcomePanel.add(balance);
+        balance.setVisible(false);
+
+
+
+        //ask question
+        howMuch = new JLabel("How Much?");
+        howMuch.setBounds(50,50,100,80);
+        welcomePanel.add(howMuch);
+        howMuch.setVisible(false);
+
+
+
+        //take amount
+        amount = new JTextField(20);
+        amount.setBounds(50, 260, 100, 80);
+        welcomePanel.add(amount);
+        amount.setVisible(false);
+
+        //ENTER BUTTON for deposit
+        enterDeposit = new JButton("ENTER");
+        enterDeposit.setBounds(50,200, 100, 80);
+        welcomePanel.add(enterDeposit);
+        enterDeposit.addActionListener(this);
+        enterDeposit.setVisible(false);
+
+        //ENTER BUTTON for withdraw
+        enterWithdraw = new JButton("ENTER");
+        enterWithdraw.setBounds(50,200,100,80);
+        welcomePanel.add(enterWithdraw);
+        enterWithdraw.addActionListener(this);
+        enterWithdraw.setVisible(false);
+
+        //account functions
+        chooseAction = new JLabel("Choose Action: ");
+        chooseAction.setBounds(50,50,100,80);
+        welcomePanel.add(chooseAction);
+        chooseAction.setVisible(false);
+
+        depositButton = new JButton("A. DEPOSIT");
+        depositButton.setBounds(50,70,100,80);
+        welcomePanel.add(depositButton);
+        depositButton.addActionListener(this);
+        depositButton.setVisible(false);
+
+        wihdrawButton = new JButton("B. WITHDRAW");
+        wihdrawButton.setBounds(50,90,100,80);
+        welcomePanel.add(wihdrawButton);
+        wihdrawButton.addActionListener(this);
+        wihdrawButton.setVisible(false);
+
+        previousButton = new JButton("C. SEE PREVIOUS TRANSACTION");
+        previousButton.setBounds(50,130,100,80);
+        welcomePanel.add(previousButton);
+        previousButton.addActionListener(this);
+        previousButton.setVisible(false);
+
+        quitButton = new JButton("D. QUIT");
+        quitButton.setBounds(50,110,100,80);
+        welcomePanel.add(quitButton);
+        quitButton.addActionListener(this);
+        quitButton.setVisible(false);
+
+        // main menu button
+        mainMenu = new JButton("MAIN MENU");
+        mainMenu.setBounds(50,200,100,80);
+        welcomePanel.add(mainMenu);
+        mainMenu.addActionListener(this);
+        mainMenu.setVisible(false);
 
         frame.setVisible(true);
 
@@ -150,11 +242,113 @@ public class GUI implements ActionListener {
             String password = passText.getText();
 
             if(user.equals(userID) && password.equals(String.valueOf(pin))) {
-                System.out.println("CORRECT");
+                userLabel.setVisible(false);
+                userText.setVisible(false);
+                passwordLabel.setVisible(false);
+                passText.setVisible(false);
+                loginButton.setVisible(false);
+
+                chooseAction.setVisible(true);
+                depositButton.setVisible(true);
+                wihdrawButton.setVisible(true);
+                previousButton.setVisible(true);
+                quitButton.setVisible(true);
             }
             else {
-                System.out.println("INCORRECT LOGIN");
+                incorrectLogin.setVisible(true);
+                incorrectLogin.setText("INCORRECT LOGIN INFO");
             }
+
+
         }
+        if (e.getSource() == depositButton) {
+            chooseAction.setVisible(false);
+            depositButton.setVisible(false);
+            wihdrawButton.setVisible(false);
+            previousButton.setVisible(false);
+
+            balance.setVisible(true);
+            howMuch.setVisible(true);
+            amount.setVisible(true);
+            enterDeposit.setVisible(true);
+
+        }
+
+        if (e.getSource() == enterDeposit) {
+                String amountOfMoney = amount.getText();
+                Integer amountOfMoney2 = Integer.parseInt(amountOfMoney);
+                previousTransAmount = amountOfMoney2;
+                Integer total = amountOfMoney2 + balanceNumber;
+                balance.setText("Balance: $" + total);
+
+                howMuch.setVisible(false);
+                amount.setVisible(false);
+                enterDeposit.setVisible(false);
+
+                mainMenu.setVisible(true);
+        }
+
+        if (e.getSource() == wihdrawButton) {
+            chooseAction.setVisible(false);
+            depositButton.setVisible(false);
+            wihdrawButton.setVisible(false);
+            previousButton.setVisible(false);
+
+            balance.setVisible(true);
+            howMuch.setVisible(true);
+            amount.setVisible(true);
+            enterWithdraw.setVisible(true);
+
+        }
+
+        if (e.getSource() == enterWithdraw) {
+            String amountOfMoney = amount.getText();
+            Integer amountOfMoney2 = Integer.parseInt(amountOfMoney);
+            previousTransAmount = -(amountOfMoney2);
+            Integer total = balanceNumber - amountOfMoney2;
+            balance.setText("Balance: $" + total);
+
+            howMuch.setVisible(false);
+            amount.setVisible(false);
+            enterWithdraw.setVisible(false);
+
+            mainMenu.setVisible(true);
+        }
+
+        if (e.getSource() == previousButton) {
+            if (previousTransAmount < 0 ) {
+                balance.setText("You withdrew: $" +previousTransAmount );
+            }
+            else if (previousTransAmount > 0) {
+                balance.setText("You deposited: $" + previousTransAmount);
+            }
+            else {
+                balance.setText("No previous transactions");
+            }
+            balance.setVisible(true);
+            chooseAction.setVisible(false);
+            depositButton.setVisible(false);
+            wihdrawButton.setVisible(false);
+            previousButton.setVisible(false);
+
+            mainMenu.setVisible(true);
+        }
+
+        if (e.getSource() == mainMenu) {
+            balance.setVisible(false);
+
+            chooseAction.setVisible(true);
+            depositButton.setVisible(true);
+            wihdrawButton.setVisible(true);
+            previousButton.setVisible(true);
+            mainMenu.setVisible(false);
+
+        }
+        if (e.getSource() == quitButton) {
+                System.exit(0);
+        }
+
+
+
     }
 }
