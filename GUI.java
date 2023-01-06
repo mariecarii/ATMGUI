@@ -5,15 +5,20 @@ import java.awt.event.ActionListener;
 
 public class GUI implements ActionListener {
 
-    JPanel welcomePanel;
-    JButton submitButton;
-    JLabel credentialsLabel;
-    JTextField nameField;
-    private String userID = "";
-    JLabel welcomeLabel;
-    JLabel instructionLabel;
-    JLabel nameLabel;
-    JButton continueToLogin;
+    private static JPanel welcomePanel;
+    private static JButton submitButton;
+    private static JLabel credentialsLabel;
+    private static JTextField nameField;
+    private static String userID = "";
+    private static JLabel welcomeLabel;
+    private static JLabel instructionLabel;
+    private static JLabel nameLabel;
+    private static JButton continueToLogin;
+    private static JLabel userLabel;
+    private static JTextField userText;
+    private static JLabel passwordLabel;
+    private static JPasswordField passText;
+    private static JButton loginButton;
 
     GUI() {
 
@@ -58,6 +63,34 @@ public class GUI implements ActionListener {
         welcomePanel.add(continueToLogin);
         continueToLogin.setVisible(false);
 
+        //login portion
+        userLabel = new JLabel("User");
+        userLabel.setBounds(10, 20, 80, 25);
+        welcomePanel.add(userLabel);
+        userLabel.setVisible(false);
+
+        userText = new JTextField(25);
+        userText.setBounds(100,20,165,25);
+        welcomePanel.add(userText);
+        userText.setVisible(false);
+
+        passwordLabel = new JLabel("Password");
+        passwordLabel.setBounds(10,50,80,25);
+        welcomePanel.add(passwordLabel);
+        passwordLabel.setVisible(false);
+
+        passText = new JPasswordField(21);
+        passText.setBounds(100, 50, 165, 25);
+        welcomePanel.add(passText);
+        passText.setVisible(false);
+
+        loginButton = new JButton("LOGIN");
+        loginButton.setBounds(200,20,100,80);
+        welcomePanel.add(loginButton);
+        loginButton.setVisible(false);
+
+
+
         frame.setVisible(true);
 
 
@@ -98,8 +131,19 @@ public class GUI implements ActionListener {
         }
 
         if (e.getSource()== continueToLogin) {
-            System.out.println("it works!");
             credentialsLabel.setVisible(false);
+            continueToLogin.setVisible(false);
+
+            userLabel.setVisible(true);
+            userText.setVisible(true);
+            passwordLabel.setVisible(true);
+            passText.setVisible(true);
+            loginButton.setVisible(true);
+
+        }
+
+        if (e.getSource() == loginButton) {
+
         }
     }
 }
